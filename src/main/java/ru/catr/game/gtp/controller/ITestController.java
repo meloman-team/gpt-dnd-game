@@ -10,28 +10,11 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "Тестовый контроллер", description = "Минимальный контроллер для тестирования")
 public interface ITestController {
 
-    @Operation(summary = "Приветствие", description = "Возвращает приветственное сообщение")
+    @Operation(summary = "Отправка сообщения ИИ", description = "Отправляет текст ИИ и возвращает ответ")
     @ApiResponse(responseCode = "200", description = "Успешный ответ")
-    ResponseEntity<String> hello();
-
-    @Operation(summary = "Персонализированное приветствие",
-            description = "Возвращает приветствие с указанным именем")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Успешный ответ"),
-            @ApiResponse(responseCode = "400", description = "Неверный параметр")
-    })
-    ResponseEntity<String> greet(
-            @Parameter(description = "Имя пользователя", required = true, example = "John")
-            String name);
-
-    @Operation(summary = "Эхо-запрос", description = "Возвращает отправленные данные")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Данные успешно возвращены"),
-            @ApiResponse(responseCode = "400", description = "Некорректный запрос")
-    })
-    ResponseEntity<String> echo(
-            @Parameter(description = "Текст для эхо", required = true, example = "Test message")
-            String message);
+    ResponseEntity<String> sendToAI(
+            @Parameter(description = "Текст для отправки ИИ", required = true, example = "Привет")
+            String text);
 
     @Operation(summary = "Проверка статуса", description = "Проверяет работоспособность API")
     @ApiResponse(responseCode = "200", description = "Сервис работает")
