@@ -1,6 +1,7 @@
 spring:
   application:
     name: gpt-game
+
 yandex:
   cloud:
     api-key: ${YANDEX_API_KEY}
@@ -8,5 +9,10 @@ yandex:
     api-url: ${YANDEX_API_URL}
     gpt:
       model: ${GPT_MODEL}
-      temperature: ${GPT_TEMPERATURE}       # Креативность ответов
+      temperature: ${GPT_TEMPERATURE} # Креативность ответов
       max-tokens: ${GPT_MAX_TOKENS}
+
+rest:
+  http:
+    connect-timeout: 30000 # 30 секунд
+    read-timeout: 60000 # 60 секунд

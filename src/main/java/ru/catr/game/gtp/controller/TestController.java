@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.catr.game.gtp.config.prop.YandexCloudConfig;
+import ru.catr.game.gtp.service.YandexGPTService;
 
 @RestController
 @RequestMapping("/api/test")
@@ -16,6 +17,7 @@ import ru.catr.game.gtp.config.prop.YandexCloudConfig;
 public class TestController implements ITestController {
 
     private YandexCloudConfig yandexCloudConfig;
+    private YandexGPTService yandexGPTService;
 
     @GetMapping("/hello")
     public ResponseEntity<String> hello() {
@@ -23,10 +25,11 @@ public class TestController implements ITestController {
         return ResponseEntity.ok("Hello from Spring Boot 4.0.2 with Java 21! apiUrl: " + apiUrl);
     }
 
-    @GetMapping("/greet/{name}")
+    @GetMapping("/greet/{text}")
     public ResponseEntity<String> greet(
-            @PathVariable String name) {
-        return ResponseEntity.ok("Hello, " + name + "!");
+            @PathVariable String text) {
+        String responseText = yandexGPTService.generateText(text, "");
+        return ResponseEntity.ok(responseText);
     }
 
     @PostMapping("/echo")
