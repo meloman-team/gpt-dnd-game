@@ -3,10 +3,10 @@ spring:
     name: gpt-game
 yandex:
   cloud:
-    api-key: ${YANDEX_API_KEY:stub_YANDEX_API_KEY}
-    folder-id: ${YANDEX_FOLDER_ID:stub_YANDEX_FOLDER_ID}
-    api-url: ${YANDEX_API_URL:stub_YANDEX_API_URL}
+    api-key: ${YANDEX_API_KEY}
+    folder-id: ${YANDEX_FOLDER_ID}
+    api-url: ${YANDEX_API_URL}
     gpt:
-      model: yandexgpt-lite  # или yandexgpt
-      temperature: 0.8       # Креативность ответов
-      max-tokens: 2000
+      model: ${GPT_MODEL}
+      temperature: ${GPT_TEMPERATURE}       # Креативность ответов
+      max-tokens: ${GPT_MAX_TOKENS}
