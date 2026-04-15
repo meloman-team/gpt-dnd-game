@@ -2,6 +2,14 @@ spring:
   application:
     name: gpt-game
 
+logging:
+  level:
+    org.zalando.logbook: TRACE
+
+logbook:
+  include:
+    - /api/**
+
 gpt:
   provider: ${GPT_PROVIDER} # Указать один из вариантов реализации GPTService
 

@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
+import org.zalando.logbook.Logbook;
+import org.zalando.logbook.spring.LogbookClientHttpRequestInterceptor;
 import ru.catr.game.gtp.config.prop.RestConfig;
 import ru.catr.game.gtp.config.prop.YandexCloudConfig;
 
@@ -24,7 +26,7 @@ public class RestClientConfig {
     }
 
     @Bean
-    public RestClient olamaGptRestClient(RestConfig restConfig) {
+    public RestClient olamaGptRestClient(RestConfig restConfig, Logbook logbook) {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(restConfig.connectTimeout());
         factory.setReadTimeout(restConfig.readTimeout());
@@ -32,6 +34,7 @@ public class RestClientConfig {
         return RestClient.builder()
                 .requestFactory(factory)
                 .defaultHeader("Content-Type", "application/json")
+                .requestInterceptor(new LogbookClientHttpRequestInterceptor(logbook))
                 .build();
     }
 
