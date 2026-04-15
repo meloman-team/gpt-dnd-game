@@ -23,4 +23,16 @@ public class RestClientConfig {
                 .build();
     }
 
+    @Bean
+    public RestClient olamaGptRestClient(RestConfig restConfig) {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(restConfig.connectTimeout());
+        factory.setReadTimeout(restConfig.readTimeout());
+
+        return RestClient.builder()
+                .requestFactory(factory)
+                .defaultHeader("Content-Type", "application/json")
+                .build();
+    }
+
 }

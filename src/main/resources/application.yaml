@@ -2,6 +2,9 @@ spring:
   application:
     name: gpt-game
 
+gpt:
+  provider: ${GPT_PROVIDER} # Указать один из вариантов реализации GPTService
+
 yandex:
   cloud:
     api-key: ${YANDEX_API_KEY}
@@ -12,6 +15,9 @@ yandex:
     gpt:
       temperature: ${GPT_TEMPERATURE} # Креативность ответов
       max-tokens: ${GPT_MAX_TOKENS}
+
+ollama:
+  model: ${OLLAMA_MODEL}
 
 rest:
   http:

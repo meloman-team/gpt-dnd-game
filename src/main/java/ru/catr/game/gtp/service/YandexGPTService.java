@@ -1,6 +1,7 @@
 package ru.catr.game.gtp.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import ru.catr.game.gtp.config.prop.YandexCloudConfig;
@@ -12,7 +13,8 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class YandexGPTService {
+@ConditionalOnProperty(name = "gpt.provider", havingValue = "yandex")
+public class YandexGPTService implements GPTService{
 
     private final RestClient yandexGptRestClient;
     private final YandexCloudConfig yandexCloudConfig;
