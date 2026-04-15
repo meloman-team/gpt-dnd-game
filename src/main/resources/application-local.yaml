@@ -1,4 +1,5 @@
 GPT_MODEL: yandexgpt-lite
+GPT_MODEL_VERSION: latest
 GPT_TEMPERATURE: 0.8
 GPT_MAX_TOKENS: 2000
 YANDEX_API_URL: https://llm.api.cloud.yandex.net/foundationModels/v1/completion

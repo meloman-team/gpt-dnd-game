@@ -6,5 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public record YandexCloudConfig(
         String apiKey,
         String folderId,
+        String model,
+        String modelVersion,
         String apiUrl
 ) {}

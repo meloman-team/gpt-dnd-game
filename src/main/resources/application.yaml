@@ -7,8 +7,9 @@ yandex:
     api-key: ${YANDEX_API_KEY}
     folder-id: ${YANDEX_FOLDER_ID}
     api-url: ${YANDEX_API_URL}
+    model: ${GPT_MODEL}
+    model-version: ${GPT_MODEL_VERSION}
     gpt:
-      model: ${GPT_MODEL}
       temperature: ${GPT_TEMPERATURE} # Креативность ответов
       max-tokens: ${GPT_MAX_TOKENS}
 

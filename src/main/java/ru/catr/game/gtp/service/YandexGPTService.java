@@ -20,9 +20,20 @@ public class YandexGPTService {
     private final YandexCloudConfig yandexCloudConfig;
 
     public String generateText(String prompt, String context) {
+        HttpEntity<YandexGPTRequest> entity = new HttpEntity<>(createRequest(prompt, context));
+        try {
+            ResponseEntity<YandexGPTResponse> response = yandexGptRestTemplate.postForEntity(
+                    yandexCloudConfig.apiUrl(), entity, YandexGPTResponse.class);
+            return extractResponseText(response.getBody());
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при обращении к YandexGPT", e);
+        }
+    }
+
+    private YandexGPTRequest createRequest(String prompt, String context) {
         String folderId = yandexCloudConfig.folderId();
-        YandexGPTRequest request = new YandexGPTRequest();
-        request.setModelUri("gpt://" + folderId + "/yandexgpt-lite/latest");
+        String model = yandexCloudConfig.model();
+        String modelVersion = yandexCloudConfig.modelVersion();
 
         List<YandexGPTRequest.Message> messages = new ArrayList<>();
         messages.add(YandexGPTRequest.Message.builder()
@@ -35,18 +46,11 @@ public class YandexGPTService {
                 .text(prompt)
                 .build());
 
+        YandexGPTRequest request = new YandexGPTRequest();
+        request.setModelUri(String.format("gpt://%s/%s/%s", folderId, model, modelVersion)); // gpt://folderId/yandexgpt-lite/latest
         request.setMessages(messages);
 
-        HttpEntity<YandexGPTRequest> entity = new HttpEntity<>(request);
-
-        try {
-            ResponseEntity<YandexGPTResponse> response = yandexGptRestTemplate.postForEntity(
-                    yandexCloudConfig.apiUrl(), entity, YandexGPTResponse.class);
-
-            return extractResponseText(response.getBody());
-        } catch (Exception e) {
-            throw new RuntimeException("Ошибка при обращении к YandexGPT", e);
-        }
+        return request;
     }
 
     private String extractResponseText(YandexGPTResponse response) {
