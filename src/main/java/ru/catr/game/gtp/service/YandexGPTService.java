@@ -1,10 +1,8 @@
 package ru.catr.game.gtp.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 import ru.catr.game.gtp.config.prop.YandexCloudConfig;
 import ru.catr.game.gtp.dto.request.YandexGPTRequest;
 import ru.catr.game.gtp.dto.response.YandexGPTResponse;
@@ -16,15 +14,17 @@ import java.util.List;
 @AllArgsConstructor
 public class YandexGPTService {
 
-    private final RestTemplate yandexGptRestTemplate;
+    private final RestClient yandexGptRestClient;
     private final YandexCloudConfig yandexCloudConfig;
 
     public String generateText(String prompt, String context) {
-        HttpEntity<YandexGPTRequest> entity = new HttpEntity<>(createRequest(prompt, context));
         try {
-            ResponseEntity<YandexGPTResponse> response = yandexGptRestTemplate.postForEntity(
-                    yandexCloudConfig.apiUrl(), entity, YandexGPTResponse.class);
-            return extractResponseText(response.getBody());
+            YandexGPTResponse response = yandexGptRestClient.post()
+                    .uri(yandexCloudConfig.apiUrl())
+                    .body(createRequest(prompt, context))
+                    .retrieve()
+                    .body(YandexGPTResponse.class);
+            return extractResponseText(response);
         } catch (Exception e) {
             throw new RuntimeException("Ошибка при обращении к YandexGPT", e);
         }
